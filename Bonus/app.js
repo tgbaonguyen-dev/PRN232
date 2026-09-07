@@ -614,16 +614,48 @@ $(".closing").insertAdjacentHTML(
   `<div class="shell"><div class="hybrid-board"><div><span class="eyebrow">HYBRID ARCHITECTURE</span><h3>Mỗi phần của hệ thống,<br><em>một cách kết nối phù hợp.</em></h3><p>REST hoặc GraphQL phục vụ Web và Mobile. gRPC kết nối các dịch vụ trong mạng nội bộ.</p><div class="tags" style="margin-top:20px"><span>North–South</span><span>East–West</span></div></div>${apiIllustration("hybrid", "hybrid")}</div></div>`,
 );
 
-
 // ============================================================================
-// SLIDE DECK PRESENTATION SYSTEM
+// SLIDE DECK PRESENTATION SYSTEM (Auto-fit to any screen height)
 // ============================================================================
 (function initSlideDeck() {
   document.body.classList.add("slide-deck-mode");
   const slides = [...$$(".chapter")];
-  slides.forEach((s) => s.classList.add("slide"));
+
+  // Wrap slide content in .slide-stage for perfect proportional scaling
+  slides.forEach((s) => {
+    s.classList.add("slide");
+    if (!s.querySelector(".slide-stage")) {
+      const stage = document.createElement("div");
+      stage.className = "slide-stage";
+      while (s.firstChild) {
+        stage.appendChild(s.firstChild);
+      }
+      s.appendChild(stage);
+    }
+  });
 
   let currentSlide = 0;
+
+  function fitSlideToScreen(slide) {
+    if (!slide) return;
+    const stage = slide.querySelector(".slide-stage");
+    if (!stage) return;
+    
+    // Reset transform to measure original natural height
+    stage.style.transform = "";
+    
+    // Safe available vertical height (window height minus nav and controls safe margins)
+    const availH = slide.clientHeight - 8;
+    const contentH = stage.scrollHeight || stage.offsetHeight;
+    
+    if (contentH > availH && availH > 200) {
+      const scale = Math.max(0.55, Math.min(1, (availH - 6) / contentH));
+      stage.style.transform = `scale(${scale.toFixed(3)})`;
+      stage.style.transformOrigin = "center center";
+    } else {
+      stage.style.transform = "";
+    }
+  }
 
   function updateSlideUI() {
     slides.forEach((s, i) => {
@@ -639,6 +671,8 @@ $(".closing").insertAdjacentHTML(
         s.querySelectorAll(".reveal-item").forEach((el) =>
           el.classList.add("in-view"),
         );
+        // Auto-fit active slide to screen
+        requestAnimationFrame(() => fitSlideToScreen(s));
       }
     });
 
@@ -726,7 +760,7 @@ $(".closing").insertAdjacentHTML(
     }
   });
 
-  // Intercept all hash links (e.g. Nav bar, Hero CTA, Footer links)
+  // Intercept all hash links (Nav bar, Hero CTA, Footer links)
   $$('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", (e) => {
       const href = a.getAttribute("href");
@@ -788,6 +822,11 @@ $(".closing").insertAdjacentHTML(
     }
   });
 
+  // Re-fit active slide on window resize or orientation change
+  window.addEventListener("resize", () => {
+    fitSlideToScreen(slides[currentSlide]);
+  });
+
   // Initial sync with URL hash
   const initialHash = window.location.hash.slice(1);
   if (initialHash) {
@@ -802,3 +841,4 @@ $(".closing").insertAdjacentHTML(
     if (idx !== -1 && idx !== currentSlide) goToSlide(idx);
   });
 })();
+
