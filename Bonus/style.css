@@ -1634,34 +1634,12 @@ body.slide-deck-mode {
   background: var(--bg);
 }
 
-/* Hide top nav on all slides except Slide 1 (#home) */
-body.slide-deck-mode .nav {
-  top: 18px;
-  padding: 10px 20px 10px 24px;
-  width: min(1180px, calc(100% - 64px));
-  z-index: 25;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.3s;
-}
-
-body.slide-deck-mode:not(.show-nav) .nav {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-  transform: translate(-50%, -24px) !important;
-body.slide-deck-mode .nav {
-/* Completely hide top nav and scroll link in slide deck mode */
+/* Completely hide top navigation bar and scroll link in slide deck mode */
 body.slide-deck-mode .nav,
-header.nav {
+.nav {
   display: none !important;
 }
 
-body.slide-deck-mode.show-nav .nav {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translate(-50%, 0);
 body.slide-deck-mode .hero-bottom a {
   display: none !important;
 }
