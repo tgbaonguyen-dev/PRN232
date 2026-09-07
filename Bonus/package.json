@@ -1,0 +1,1 @@
+{"name":"api-atlas-presentation","version":"1.0.0","private":true,"description":"Interactive API architecture presentation for PRN232","scripts":{"dev":"node server.js","start":"node server.js","check":"node --check app.js && node --check visuals.js && node --check motion.js && node --check server.js"}}
