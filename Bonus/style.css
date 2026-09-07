@@ -1616,3 +1616,370 @@ footer > span {
     transform: none;
   }
 }
+
+
+/* ==========================================================================
+   SLIDE PRESENTATION MODE (Full-viewport slide deck for 1920x1080 recording)
+   ========================================================================== */
+
+body.slide-deck-mode {
+  overflow: hidden !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  width: 100vw !important;
+  position: fixed;
+  inset: 0;
+}
+
+body.slide-deck-mode main {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+body.slide-deck-mode .slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 85px 60px 85px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.985) translateY(12px);
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.38s;
+  z-index: 1;
+}
+
+body.slide-deck-mode .slide::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+body.slide-deck-mode .slide.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+  z-index: 2;
+}
+
+/* Center Hero slide */
+body.slide-deck-mode .hero.slide {
+  min-height: auto;
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+body.slide-deck-mode .hero-bottom {
+  bottom: 18px;
+}
+
+/* Compact layout optimizations to fit cleanly in 1080p viewport */
+body.slide-deck-mode .section-head {
+  margin-bottom: 24px;
+}
+
+body.slide-deck-mode .architecture-panel {
+  padding: 28px 36px;
+  gap: 36px;
+}
+
+body.slide-deck-mode .architecture-panel h3 {
+  font-size: 38px;
+  margin: 4px 0 10px;
+}
+
+body.slide-deck-mode .architecture-panel p {
+  margin: 10px 0;
+}
+
+body.slide-deck-mode .architecture-panel pre {
+  margin: 12px 0 16px;
+}
+
+body.slide-deck-mode #comparison th,
+body.slide-deck-mode #comparison td {
+  padding: 13px 16px;
+}
+
+body.slide-deck-mode .trade-list details {
+  padding: 16px 0;
+}
+
+body.slide-deck-mode .trade-list details > div {
+  padding: 18px 40px 6px;
+}
+
+body.slide-deck-mode .case-grid {
+  gap: 36px;
+}
+
+body.slide-deck-mode .stat {
+  margin: 24px 0 16px;
+}
+
+body.slide-deck-mode .reasons article {
+  padding: 0 0 16px;
+  margin-bottom: 16px;
+}
+
+body.slide-deck-mode .playground {
+  padding: 20px 24px;
+}
+
+body.slide-deck-mode .request-bar {
+  margin-top: 16px;
+}
+
+body.slide-deck-mode .flow {
+  padding: 16px 0;
+}
+
+body.slide-deck-mode .code-grid pre {
+  min-height: 180px;
+  max-height: 280px;
+}
+
+body.slide-deck-mode .sequence {
+  margin-top: 28px;
+  gap: 32px;
+}
+
+body.slide-deck-mode .sources a {
+  padding: 15px 0;
+}
+
+body.slide-deck-mode .decision-options button {
+  padding: 15px 14px;
+}
+
+body.slide-deck-mode .decision-result {
+  padding: 22px 30px;
+}
+
+body.slide-deck-mode .hybrid-board {
+  padding: 22px 30px !important;
+  margin-bottom: 24px;
+}
+
+body.slide-deck-mode .closing {
+  padding: 40px 0 16px;
+}
+
+body.slide-deck-mode footer {
+  padding: 20px 0;
+  margin-top: 24px;
+}
+
+/* ==========================================================================
+   SLIDE CONTROLS (Floating Navigation Bar & Edge Buttons)
+   ========================================================================== */
+
+.slide-controls {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 12px 7px 16px;
+  background: rgba(14, 21, 22, 0.94);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(202, 240, 222, 0.2);
+  border-radius: 100px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(173, 243, 204, 0.1);
+  z-index: 35;
+  user-select: none;
+}
+
+.slide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #182620;
+  border: 1px solid rgba(173, 243, 204, 0.22);
+  border-radius: 100px;
+  padding: 6px 14px;
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.slide-btn:hover:not(:disabled) {
+  background: var(--mint);
+  color: #0c1c11;
+  border-color: var(--mint);
+  transform: translateY(-1px);
+}
+
+.slide-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.btn-arrow {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.btn-label {
+  letter-spacing: 0.5px;
+}
+
+.slide-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+.slide-number {
+  color: var(--mint);
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.slide-divider {
+  color: #557262;
+}
+
+.slide-name {
+  color: #b2c6bc;
+  font-weight: 500;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slide-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+}
+
+.slide-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(173, 243, 204, 0.22);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.28s var(--ease);
+}
+
+.slide-dot:hover {
+  background: rgba(173, 243, 204, 0.6);
+  transform: scale(1.3);
+}
+
+.slide-dot.active {
+  width: 22px;
+  border-radius: 10px;
+  background: var(--mint);
+  box-shadow: 0 0 10px rgba(173, 243, 204, 0.45);
+}
+
+.slide-btn-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #182620;
+  border: 1px solid rgba(173, 243, 204, 0.22);
+  color: #b0c4ba;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+
+.slide-btn-icon:hover {
+  background: rgba(173, 243, 204, 0.2);
+  color: var(--mint);
+  transform: scale(1.06);
+}
+
+/* Edge Floating Arrow Buttons */
+.slide-edge-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 70px;
+  border-radius: 12px;
+  background: rgba(14, 21, 22, 0.65);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(202, 240, 222, 0.14);
+  color: #92ab9e;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  cursor: pointer;
+  transition: all 0.28s var(--ease);
+  opacity: 0.35;
+}
+
+.slide-edge-arrow:hover:not(:disabled) {
+  opacity: 1;
+  background: rgba(24, 38, 32, 0.92);
+  color: var(--mint);
+  border-color: rgba(173, 243, 204, 0.35);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.slide-edge-prev {
+  left: 14px;
+}
+
+.slide-edge-next {
+  right: 14px;
+}
+
+.slide-edge-arrow:disabled {
+  opacity: 0.08;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .slide-controls {
+    bottom: 10px;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .slide-name,
+  .slide-divider,
+  .slide-dots {
+    display: none;
+  }
+  .slide-edge-arrow {
+    display: none;
+  }
+}

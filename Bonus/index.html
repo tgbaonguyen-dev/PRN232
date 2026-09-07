@@ -408,8 +408,8 @@
           </p>
         </div>
         <div id="sources" class="sources reveal"></div>
-        <a class="text-link source-download" href="SCRIPT.md" download
-          >Tải toàn bộ nội dung gốc (.md) <span>↓</span></a
+        <a class="text-link source-download" href="VIDEO_SCRIPT.md" download
+          >Tải kịch bản video (.md) <span>↓</span></a
         >
       </section>
       <section id="decision" class="chapter">
@@ -440,13 +440,39 @@
           </p>
           <a class="button" href="#home">Khám phá lại <span>↑</span></a>
         </div>
-      </section>
-    </main>
-    <footer>
+        <footer>
       <a class="brand" href="#home">⌘ API<span>ATLAS</span></a
       ><span>PRN232 · FPT UNIVERSITY</span
       ><span>Designed for connection. Built for understanding.</span>
     </footer>
+      </section>
+    </main>
+    <!-- Slide Edge Arrows -->
+    <button class="slide-edge-arrow slide-edge-prev" id="edge-prev" aria-label="Slide trước" title="Phím mũi tên Trái (←)">‹</button>
+    <button class="slide-edge-arrow slide-edge-next" id="edge-next" aria-label="Slide sau" title="Phím mũi tên Phải (→)">›</button>
+
+    <!-- Slide Navigation Bar -->
+    <nav class="slide-controls" id="slide-controls" aria-label="Điều khiển trình chiếu slide">
+      <button class="slide-btn" id="slide-prev" title="Slide trước (← hoặc ↑)">
+        <span class="btn-arrow">‹</span>
+        <span class="btn-label">Trước</span>
+      </button>
+      <div class="slide-meta" id="slide-meta">
+        <span class="slide-number" id="slide-number">01 / 09</span>
+        <span class="slide-divider">·</span>
+        <span class="slide-name" id="slide-name">Mở đầu</span>
+      </div>
+      <div class="slide-dots" id="slide-dots" aria-label="Danh sách slide"></div>
+      <button class="slide-btn" id="slide-next" title="Slide sau (→, ↓ hoặc Space)">
+        <span class="btn-label">Sau</span>
+        <span class="btn-arrow">›</span>
+      </button>
+      <button class="slide-btn-icon" id="fullscreen-btn" title="Bật/tắt toàn màn hình (Phím F)">
+        <span class="icon-fs">⛶</span>
+      </button>
+    </nav>
+
+    
     <script src="visuals.js"></script>
     <script src="app.js"></script>
     <script src="motion.js"></script>

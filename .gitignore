@@ -8,3 +8,9 @@ Thumbs.db
 bin/
 obj/
 .vercel
+*.mp4
+*.mov
+*.wav
+*.mp3
+video-production/
+video-work/

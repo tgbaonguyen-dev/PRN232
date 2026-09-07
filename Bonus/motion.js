@@ -1,7 +1,7 @@
 // A guided, viewport-aware presentation. Manual interaction always takes priority.
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let enabled = !reduced.matches;
+  let enabled = false;
   const tours = [];
   const button = document.createElement('button');
   button.className = 'motion-control';

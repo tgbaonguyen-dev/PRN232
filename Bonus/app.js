@@ -613,3 +613,192 @@ $(".closing").insertAdjacentHTML(
   "beforebegin",
   `<div class="shell"><div class="hybrid-board"><div><span class="eyebrow">HYBRID ARCHITECTURE</span><h3>Mỗi phần của hệ thống,<br><em>một cách kết nối phù hợp.</em></h3><p>REST hoặc GraphQL phục vụ Web và Mobile. gRPC kết nối các dịch vụ trong mạng nội bộ.</p><div class="tags" style="margin-top:20px"><span>North–South</span><span>East–West</span></div></div>${apiIllustration("hybrid", "hybrid")}</div></div>`,
 );
+
+
+// ============================================================================
+// SLIDE DECK PRESENTATION SYSTEM
+// ============================================================================
+(function initSlideDeck() {
+  document.body.classList.add("slide-deck-mode");
+  const slides = [...$$(".chapter")];
+  slides.forEach((s) => s.classList.add("slide"));
+
+  let currentSlide = 0;
+
+  function updateSlideUI() {
+    slides.forEach((s, i) => {
+      const isActive = i === currentSlide;
+      s.classList.toggle("active", isActive);
+      s.setAttribute("aria-hidden", String(!isActive));
+      if (isActive) {
+        s.scrollTop = 0;
+        // Make all reveal items in active slide visible immediately
+        s.querySelectorAll(".reveal").forEach((el) =>
+          el.classList.add("visible"),
+        );
+        s.querySelectorAll(".reveal-item").forEach((el) =>
+          el.classList.add("in-view"),
+        );
+      }
+    });
+
+    // Update slide counter and name in bottom bar
+    const numText = `0${currentSlide + 1} / 0${slides.length}`;
+    const nameText = names[currentSlide] || "";
+    const numEl = $("#slide-number");
+    const nameEl = $("#slide-name");
+    if (numEl) numEl.textContent = numText;
+    if (nameEl) nameEl.textContent = nameText;
+
+    // Update Prev / Next buttons state
+    const prevBtn = $("#slide-prev");
+    const nextBtn = $("#slide-next");
+    const edgePrev = $("#edge-prev");
+    const edgeNext = $("#edge-next");
+    if (prevBtn) prevBtn.disabled = currentSlide === 0;
+    if (edgePrev) edgePrev.disabled = currentSlide === 0;
+    if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
+    if (edgeNext) edgeNext.disabled = currentSlide === slides.length - 1;
+
+    // Update indicator dots
+    $$(".slide-dot").forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentSlide);
+      dot.setAttribute("aria-current", i === currentSlide ? "step" : "false");
+    });
+
+    // Update main nav active link
+    const activeId = slides[currentSlide]?.id;
+    $$(".nav nav a").forEach((a) => {
+      const href = a.getAttribute("href");
+      a.classList.toggle("current", href === `#${activeId}`);
+    });
+
+    // Update URL hash without causing viewport jumping
+    if (activeId && window.location.hash !== `#${activeId}`) {
+      history.replaceState(null, "", `#${activeId}`);
+    }
+  }
+
+  function goToSlide(index) {
+    if (index < 0 || index >= slides.length) return;
+    currentSlide = index;
+    updateSlideUI();
+  }
+
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      goToSlide(currentSlide + 1);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      goToSlide(currentSlide - 1);
+    }
+  }
+
+  // Generate indicator dots
+  const dotsContainer = $("#slide-dots");
+  if (dotsContainer) {
+    dotsContainer.innerHTML = slides
+      .map(
+        (_, i) =>
+          `<button class="slide-dot ${i === 0 ? "active" : ""}" data-index="${i}" aria-label="Đến slide 0${i + 1}: ${names[i] || ""}"></button>`,
+      )
+      .join("");
+    $$(".slide-dot").forEach((d) => {
+      d.onclick = () => goToSlide(Number(d.dataset.index));
+    });
+  }
+
+  // Button clicks
+  $("#slide-prev")?.addEventListener("click", prevSlide);
+  $("#slide-next")?.addEventListener("click", nextSlide);
+  $("#edge-prev")?.addEventListener("click", prevSlide);
+  $("#edge-next")?.addEventListener("click", nextSlide);
+
+  // Fullscreen button
+  $("#fullscreen-btn")?.addEventListener("click", () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  // Intercept all hash links (e.g. Nav bar, Hero CTA, Footer links)
+  $$('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (!href || href === "#") return;
+      const targetId = href.slice(1);
+      const targetIdx = slides.findIndex((s) => s.id === targetId);
+      if (targetIdx !== -1) {
+        e.preventDefault();
+        goToSlide(targetIdx);
+      }
+    });
+  });
+
+  // Keyboard navigation
+  document.addEventListener("keydown", (e) => {
+    if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
+    if (
+      document.activeElement?.tagName === "SELECT" &&
+      (e.key === "ArrowUp" || e.key === "ArrowDown")
+    )
+      return;
+    if ($("#menu")?.classList.contains("open")) return;
+
+    if (
+      e.key === "ArrowRight" ||
+      e.key === "ArrowDown" ||
+      e.key === "PageDown" ||
+      (e.key === " " && document.activeElement?.tagName !== "BUTTON")
+    ) {
+      e.preventDefault();
+      nextSlide();
+    } else if (
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowUp" ||
+      e.key === "PageUp"
+    ) {
+      e.preventDefault();
+      prevSlide();
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      goToSlide(0);
+    } else if (e.key === "End") {
+      e.preventDefault();
+      goToSlide(slides.length - 1);
+    } else if (/^[1-9]$/.test(e.key)) {
+      const num = parseInt(e.key, 10) - 1;
+      if (num < slides.length) {
+        e.preventDefault();
+        goToSlide(num);
+      }
+    } else if (e.key === "f" || e.key === "F") {
+      if (!["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+  });
+
+  // Initial sync with URL hash
+  const initialHash = window.location.hash.slice(1);
+  if (initialHash) {
+    const initIdx = slides.findIndex((s) => s.id === initialHash);
+    if (initIdx !== -1) currentSlide = initIdx;
+  }
+  updateSlideUI();
+
+  window.addEventListener("hashchange", () => {
+    const h = window.location.hash.slice(1);
+    const idx = slides.findIndex((s) => s.id === h);
+    if (idx !== -1 && idx !== currentSlide) goToSlide(idx);
+  });
+})();
