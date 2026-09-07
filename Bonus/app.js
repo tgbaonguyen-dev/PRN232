@@ -767,12 +767,13 @@ $(".closing").insertAdjacentHTML(
     const stage = slide.querySelector(".slide-stage");
     if (!stage) return;
     stage.style.transform = "";
-    const availH = slide.clientHeight - 8;
+    const availH = slide.clientHeight - 10;
     const contentH = stage.scrollHeight || stage.offsetHeight;
-    if (contentH > availH && availH > 200) {
-      const scale = Math.max(0.6, Math.min(1, (availH - 4) / contentH));
+    // Only scale if content genuinely overflows the viewport
+    if (contentH > availH && availH > 350) {
+      const scale = Math.max(0.75, Math.min(1, availH / contentH));
       stage.style.transform = `scale(${scale.toFixed(3)})`;
-      stage.style.transformOrigin = "center top";
+      stage.style.transformOrigin = "center center";
     } else {
       stage.style.transform = "";
     }

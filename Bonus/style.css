@@ -1619,7 +1619,7 @@ footer > span {
 
 
 /* ==========================================================================
-   SLIDE PRESENTATION MODE (Ultra-compact, no overflow, clean recording frame)
+   SLIDE PRESENTATION MODE (Expansive 16:9 Widescreen Fit - 1920x1080)
    ========================================================================== */
 
 body.slide-deck-mode {
@@ -1631,13 +1631,14 @@ body.slide-deck-mode {
   inset: 0;
   margin: 0;
   padding: 0;
+  background: var(--bg);
 }
 
 /* Hide top nav on all slides except Slide 1 (#home) */
 body.slide-deck-mode .nav {
-  top: 14px;
-  padding: 7px 16px 7px 20px;
-  width: min(1040px, calc(100% - 40px));
+  top: 18px;
+  padding: 10px 20px 10px 24px;
+  width: min(1180px, calc(100% - 64px));
   z-index: 25;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1666,26 +1667,26 @@ body.slide-deck-mode main {
   overflow: hidden;
 }
 
-/* Slides: NEVER clip top heading (justify-content: flex-start) */
+/* Slides: Full height, generous padding, vertically centered or top-aligned */
 body.slide-deck-mode .slide {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  padding: 24px 44px 20px !important;
+  padding: 40px 60px 36px !important;
   box-sizing: border-box;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
   align-items: center !important;
   overflow: hidden !important;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: scale(0.99) translateY(6px);
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.3s;
+  transform: scale(0.99) translateY(4px);
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.32s;
   z-index: 1;
 }
 
@@ -1697,49 +1698,50 @@ body.slide-deck-mode .slide.active {
   z-index: 2;
 }
 
-/* Inner stage that auto-scales if needed */
+/* Inner stage: uses full widescreen space up to 1540px */
 .slide-stage {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1540px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  transform-origin: center top;
-  transition: transform 0.2s ease;
+  justify-content: center;
+  transform-origin: center center;
 }
 
-/* Universal compact section-head across slides */
+/* Universal section-head: bold, legible, beautifully spaced */
 body.slide-deck-mode .section-head {
-  margin-bottom: 12px !important;
-  gap: 24px !important;
+  margin-bottom: 20px !important;
+  gap: 36px !important;
 }
 
 body.slide-deck-mode .section-head > div h2 {
-  font-size: clamp(22px, 2.4vw, 32px) !important;
+  font-size: clamp(28px, 2.7vw, 42px) !important;
   line-height: 1.18 !important;
-  letter-spacing: -0.015em !important;
+  letter-spacing: -0.018em !important;
+  font-weight: 600 !important;
 }
 
 body.slide-deck-mode .section-head > p {
-  font-size: 12px !important;
-  line-height: 1.45 !important;
-  max-width: 380px !important;
-  padding-bottom: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  max-width: 460px !important;
+  color: #a4bba0 !important;
 }
 
 body.slide-deck-mode .eyebrow {
-  margin-bottom: 4px !important;
-  font-size: 10px !important;
-  letter-spacing: 1px !important;
+  margin-bottom: 8px !important;
+  font-size: 11px !important;
+  letter-spacing: 1.4px !important;
+  font-weight: 600 !important;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 1: HOME (HERO)
+   SLIDE 1: HOME (HERO) - Majestic Widescreen Presence
    -------------------------------------------------------------------------- */
 body.slide-deck-mode .hero.slide {
   justify-content: center !important;
-  padding: 20px 48px !important;
+  padding: 30px 70px !important;
 }
 
 body.slide-deck-mode .hero.slide .slide-stage {
@@ -1750,544 +1752,571 @@ body.slide-deck-mode .hero.slide .slide-stage {
 body.slide-deck-mode .hero {
   min-height: auto;
   height: auto;
+  grid-template-columns: 1.12fr 1fr;
+  gap: 50px;
 }
 
 body.slide-deck-mode .hero-copy h1 {
-  font-size: clamp(28px, 3.2vw, 46px);
+  font-size: clamp(38px, 4.2vw, 60px);
   line-height: 1.16;
+  letter-spacing: -0.02em;
 }
 
 body.slide-deck-mode .hero-copy p {
-  font-size: 13.5px;
-  line-height: 1.55;
-  margin-top: 14px;
-  max-width: 440px;
+  font-size: 15.5px;
+  line-height: 1.7;
+  margin-top: 18px;
+  max-width: 500px;
+  color: #a6bca2;
 }
 
 body.slide-deck-mode .hero .actions {
-  margin-top: 18px;
-  gap: 16px;
+  margin-top: 26px;
+  gap: 20px;
+}
+
+body.slide-deck-mode .hero .button {
+  padding: 9px 12px 9px 24px;
+  font-size: 13.5px;
 }
 
 body.slide-deck-mode .hero-meta {
-  margin-top: 20px;
-  gap: 16px;
-  font-size: 10px;
+  margin-top: 30px;
+  gap: 24px;
+  font-size: 11px;
 }
 
 body.slide-deck-mode .network {
-  max-width: 400px;
-  width: 90%;
+  max-width: 480px;
+  width: 95%;
   margin: 0 auto;
 }
 
 body.slide-deck-mode .hero-bottom {
-  bottom: 12px;
-  left: 48px;
-  right: 48px;
-  padding-top: 10px;
-  font-size: 9.5px;
+  bottom: 16px;
+  left: 60px;
+  right: 60px;
+  padding-top: 14px;
+  font-size: 10.5px;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 2: OVERVIEW (SOAP, REST, GraphQL, gRPC) - Ultra Compact & Fitted
+   SLIDE 2: OVERVIEW - Full, Balanced, Never Overflowing
    -------------------------------------------------------------------------- */
 #overview .section-head {
-  margin-bottom: 8px !important;
+  margin-bottom: 14px !important;
 }
 
 #overview .tabs {
-  margin-bottom: 8px !important;
-  gap: 8px !important;
+  margin-bottom: 14px !important;
+  gap: 12px !important;
 }
 
 #overview .tabs button {
-  padding: 6px 14px !important;
-  font-size: 13.5px !important;
-  border-radius: 10px !important;
-}
-
-#overview .tabs button small {
-  font-size: 10px !important;
-}
-
-#overview #architecture-panel {
-  padding: 12px 20px !important;
-  gap: 20px !important;
-  border-radius: 16px !important;
-}
-
-#overview .architecture-art {
-  padding: 8px 16px !important;
-  margin: 0 0 4px !important;
-  gap: 16px !important;
+  padding: 10px 18px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
   border-radius: 12px !important;
 }
 
+#overview .tabs button small {
+  font-size: 11px !important;
+}
+
+#overview #architecture-panel {
+  padding: 22px 32px !important;
+  gap: 36px !important;
+  border-radius: 20px !important;
+}
+
+#overview .architecture-art {
+  padding: 12px 22px !important;
+  margin: -4px 0 8px !important;
+  gap: 24px !important;
+  border-radius: 14px !important;
+}
+
 #overview .architecture-art h4 {
-  font-size: 15px !important;
-  line-height: 1.25 !important;
+  font-size: 18px !important;
+  line-height: 1.35 !important;
 }
 
 #overview .architecture-art p {
-  font-size: 11px !important;
-  line-height: 1.35 !important;
-  margin: 3px 0 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
+  margin: 4px 0 0 !important;
 }
 
 #overview .architecture-art .api-illustration {
-  max-height: 68px !important;
+  max-height: 80px !important;
   width: auto !important;
 }
 
 #overview .architecture-panel h3 {
-  font-size: 22px !important;
-  margin: 0 0 2px !important;
+  font-size: 30px !important;
+  margin: 0 0 4px !important;
+  letter-spacing: -0.015em !important;
 }
 
 #overview .architecture-panel .code-label {
-  font-size: 9.5px !important;
-  letter-spacing: 1px !important;
+  font-size: 10.5px !important;
+  letter-spacing: 1.2px !important;
 }
 
 #overview .architecture-panel p {
-  font-size: 11.5px !important;
-  line-height: 1.4 !important;
-  margin: 4px 0 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+  margin: 8px 0 !important;
 }
 
 #overview .tags {
-  gap: 5px !important;
+  gap: 7px !important;
 }
 
 #overview .tags span {
-  font-size: 9.5px !important;
-  padding: 2px 7px !important;
+  font-size: 11px !important;
+  padding: 4px 10px !important;
 }
 
 #overview .architecture-panel pre {
-  margin: 4px 0 6px !important;
-  font-size: 10.5px !important;
-  line-height: 1.35 !important;
-  max-height: 125px !important;
+  margin: 8px 0 10px !important;
+  font-size: 11.5px !important;
+  line-height: 1.55 !important;
+  max-height: 160px !important;
 }
 
 #overview .architecture-panel ul {
-  font-size: 11px !important;
-  line-height: 1.4 !important;
+  font-size: 12.5px !important;
+  line-height: 1.6 !important;
   margin: 0 !important;
-  padding-left: 14px !important;
+  padding-left: 18px !important;
 }
 
 #overview .architecture-panel li {
-  margin: 2px 0 !important;
+  margin: 4px 0 !important;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 3: COMPARE TABLE
+   SLIDE 3: COMPARE TABLE - Full 1540px Widescreen, Crystal Clear
    -------------------------------------------------------------------------- */
 #compare .section-head {
-  margin-bottom: 6px !important;
+  margin-bottom: 10px !important;
 }
 
 #compare .chips {
-  margin: 6px 0 10px !important;
-  gap: 6px !important;
+  margin: 8px 0 14px !important;
+  gap: 8px !important;
 }
 
 #compare .chips button {
-  padding: 4px 12px !important;
-  font-size: 11px !important;
+  padding: 6px 16px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
 }
 
 #compare #comparison {
-  font-size: 11.5px !important;
+  font-size: 12.5px !important;
 }
 
 #compare #comparison th,
 #compare #comparison td {
-  padding: 7px 12px !important;
-  line-height: 1.35 !important;
+  padding: 11px 16px !important;
+  line-height: 1.5 !important;
 }
 
 #compare #comparison thead th {
-  padding: 8px 12px !important;
+  padding: 12px 16px !important;
 }
 
 #compare #comparison thead th > span {
-  font-size: 16px !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
 }
 
 #compare #comparison thead th small {
-  font-size: 10px !important;
-  margin-top: 1px !important;
+  font-size: 11.5px !important;
+  margin-top: 2px !important;
+}
+
+#compare #comparison thead th:first-child {
+  font-size: 12px !important;
 }
 
 #compare #comparison td strong {
-  font-size: 12px !important;
-  margin-bottom: 1px !important;
+  font-size: 13.5px !important;
+  margin-bottom: 2px !important;
+  font-weight: 600 !important;
 }
 
 #compare #comparison td small {
-  font-size: 10.5px !important;
-  line-height: 1.35 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
 }
 
 #compare #comparison tbody th {
-  font-size: 11.5px !important;
+  font-size: 13px !important;
 }
 
 #compare #comparison .criterion-number {
-  font-size: 9.5px !important;
-  margin-bottom: 1px !important;
+  font-size: 10.5px !important;
+  margin-bottom: 2px !important;
 }
 
 #compare .footnote {
-  margin-top: 6px !important;
-  font-size: 10.5px !important;
+  margin-top: 10px !important;
+  font-size: 12px !important;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 4: TRADEOFFS (All 3 details open)
+   SLIDE 4: TRADEOFFS - 3 Full Cards
    -------------------------------------------------------------------------- */
 #tradeoffs .section-head {
-  margin-bottom: 10px !important;
+  margin-bottom: 16px !important;
 }
 
 #tradeoffs .trade-list details {
-  padding: 8px 0 !important;
+  padding: 14px 0 !important;
 }
 
 #tradeoffs .trade-list summary h3 {
-  font-size: 15.5px !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
 }
 
 #tradeoffs .trade-list details > div {
-  padding: 6px 24px 2px !important;
-  gap: 20px !important;
-  font-size: 12px !important;
-  line-height: 1.45 !important;
+  padding: 10px 36px 4px !important;
+  gap: 36px !important;
+  font-size: 13.5px !important;
+  line-height: 1.65 !important;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 5: CASE STUDY (REST for Student Management)
+   SLIDE 5: CASE STUDY - Expansive 2-Column Balance
    -------------------------------------------------------------------------- */
 #case .section-head {
-  margin-bottom: 10px !important;
+  margin-bottom: 14px !important;
 }
 
 #case .case-grid {
-  gap: 22px !important;
+  gap: 36px !important;
 }
 
 #case .case-feature {
-  padding: 16px 20px !important;
-  border-radius: 16px !important;
+  padding: 22px 28px !important;
+  border-radius: 18px !important;
 }
 
 #case .case-feature h3 {
-  font-size: 32px !important;
-  margin: 2px 0 8px !important;
+  font-size: 42px !important;
+  margin: 4px 0 10px !important;
 }
 
 #case .case-feature p {
-  font-size: 13px !important;
-  line-height: 1.4 !important;
+  font-size: 14.5px !important;
+  line-height: 1.55 !important;
 }
 
 #case .student-art {
-  height: 150px !important;
-  margin: 6px auto !important;
+  height: 180px !important;
+  margin: 8px auto !important;
 }
 
 #case .student-pass {
-  width: 165px !important;
-  padding: 10px !important;
-  transform: rotate(-5deg) scale(0.85) !important;
-  border-radius: 14px !important;
+  width: 180px !important;
+  padding: 12px !important;
+  transform: rotate(-5deg) scale(0.9) !important;
+  border-radius: 16px !important;
 }
 
 #case .student-avatar {
-  width: 38px !important;
-  height: 38px !important;
-  margin: 8px 0 4px !important;
+  width: 44px !important;
+  height: 44px !important;
+  margin: 10px 0 6px !important;
 }
 
 #case .pass-bottom {
-  margin-top: 8px !important;
-  padding-top: 6px !important;
+  margin-top: 10px !important;
+  padding-top: 8px !important;
 }
 
 #case .pass-bottom b {
-  font-size: 18px !important;
+  font-size: 20px !important;
 }
 
 #case .stat {
-  margin: 8px 0 6px !important;
+  margin: 10px 0 8px !important;
 }
 
 #case .stat strong {
-  font-size: 22px !important;
+  font-size: 28px !important;
 }
 
 #case .reasons article {
-  padding: 0 0 8px !important;
-  margin-bottom: 8px !important;
-  gap: 14px !important;
+  padding: 0 0 10px !important;
+  margin-bottom: 10px !important;
+  gap: 16px !important;
 }
 
 #case .reasons h3 {
-  font-size: 14.5px !important;
-  margin-bottom: 2px !important;
+  font-size: 16px !important;
+  margin-bottom: 3px !important;
 }
 
 #case .reasons p {
-  font-size: 12px !important;
-  line-height: 1.4 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
 }
 
 #case .reasons code {
-  font-size: 10.5px !important;
-  margin-top: 4px !important;
-  padding: 2px 6px !important;
+  font-size: 11.5px !important;
+  margin-top: 6px !important;
+  padding: 3px 8px !important;
 }
 
 #case .alternatives {
-  margin-top: 10px !important;
-  gap: 18px !important;
+  margin-top: 16px !important;
+  gap: 28px !important;
 }
 
 #case .alternatives p {
-  font-size: 11.5px !important;
+  font-size: 12.5px !important;
+  line-height: 1.55 !important;
 }
 
 #case .alternatives b {
-  font-size: 13.5px !important;
-  margin-bottom: 2px !important;
+  font-size: 15px !important;
+  margin-bottom: 3px !important;
 }
 
 /* --------------------------------------------------------------------------
-   SLIDE 6: INTERACTIVE PLAYGROUND (Live Demo)
+   SLIDE 6: INTERACTIVE PLAYGROUND - Immersive DevTools Layout
    -------------------------------------------------------------------------- */
 #demo .section-head {
-  margin-bottom: 8px !important;
+  margin-bottom: 12px !important;
 }
 
 #demo .playground {
-  padding: 14px 18px !important;
+  padding: 20px 28px !important;
+  border-radius: 18px !important;
 }
 
 #demo .request-bar {
-  margin-top: 8px !important;
-  padding: 5px 10px !important;
-  border-radius: 10px !important;
+  margin-top: 12px !important;
+  padding: 8px 14px !important;
+  border-radius: 12px !important;
 }
 
 #demo .request-bar select {
-  padding: 6px !important;
-  font-size: 12px !important;
-}
-
-#demo .request-bar .button {
-  padding: 5px 6px 5px 16px !important;
-  font-size: 12px !important;
-}
-
-#demo .flow {
-  padding: 8px 0 !important;
-  font-size: 11px !important;
-  gap: 12px !important;
-}
-
-#demo .flow span {
-  padding: 4px 12px !important;
-}
-
-#demo .code-grid {
-  gap: 14px !important;
-}
-
-#demo .code-grid > div {
-  padding: 10px 14px !important;
-}
-
-#demo .code-grid pre {
-  min-height: 120px !important;
-  max-height: 165px !important;
-  font-size: 11px !important;
-  line-height: 1.45 !important;
-}
-
-#demo .controller {
-  margin-top: 8px !important;
-  padding-top: 6px !important;
-}
-
-/* --------------------------------------------------------------------------
-   SLIDE 7: UNDER THE HOOD (System Tiers & Cache-Aside)
-   -------------------------------------------------------------------------- */
-#system .section-head {
-  margin-bottom: 8px !important;
-}
-
-#system .system-grid {
-  gap: 18px !important;
-}
-
-#system .tiers {
-  gap: 6px !important;
-}
-
-#system .tiers button {
   padding: 8px 12px !important;
-  gap: 10px !important;
-  border-radius: 10px !important;
-}
-
-#system .tiers strong {
   font-size: 13px !important;
 }
 
-#system .tiers small {
-  font-size: 10px !important;
+#demo .request-bar .button {
+  padding: 7px 10px 7px 20px !important;
+  font-size: 13px !important;
 }
 
-#system .tier-detail {
-  padding: 14px 18px !important;
-}
-
-#system .tier-detail h3 {
-  font-size: 18px !important;
-  margin-bottom: 4px !important;
-}
-
-#system .tier-detail p {
+#demo .flow {
+  padding: 12px 0 !important;
   font-size: 12px !important;
-  line-height: 1.4 !important;
+  gap: 16px !important;
 }
 
-#system .tier-detail ul {
-  font-size: 11.5px !important;
-  line-height: 1.5 !important;
-  margin-top: 8px !important;
+#demo .flow span {
+  padding: 6px 16px !important;
 }
 
-#system .sequence {
-  margin-top: 10px !important;
+#demo .code-grid {
   gap: 20px !important;
 }
 
+#demo .code-grid > div {
+  padding: 14px 18px !important;
+  border-radius: 12px !important;
+}
+
+#demo .code-grid pre {
+  min-height: 160px !important;
+  max-height: 240px !important;
+  font-size: 12px !important;
+  line-height: 1.6 !important;
+}
+
+#demo .controller {
+  margin-top: 12px !important;
+  padding-top: 8px !important;
+}
+
+/* --------------------------------------------------------------------------
+   SLIDE 7: UNDER THE HOOD - Full System Architecture
+   -------------------------------------------------------------------------- */
+#system .section-head {
+  margin-bottom: 12px !important;
+}
+
+#system .system-grid {
+  gap: 28px !important;
+}
+
+#system .tiers {
+  gap: 8px !important;
+}
+
+#system .tiers button {
+  padding: 12px 18px !important;
+  gap: 14px !important;
+  border-radius: 12px !important;
+}
+
+#system .tiers strong {
+  font-size: 15px !important;
+}
+
+#system .tiers small {
+  font-size: 11.5px !important;
+}
+
+#system .tier-detail {
+  padding: 22px 28px !important;
+  border-radius: 18px !important;
+}
+
+#system .tier-detail h3 {
+  font-size: 24px !important;
+  margin-bottom: 8px !important;
+}
+
+#system .tier-detail p {
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+}
+
+#system .tier-detail ul {
+  font-size: 13px !important;
+  line-height: 1.9 !important;
+  margin-top: 14px !important;
+}
+
+#system .sequence {
+  margin-top: 16px !important;
+  gap: 32px !important;
+}
+
 #system .sequence h3 {
-  font-size: 16px !important;
+  font-size: 20px !important;
 }
 
 #system .sequence li {
-  padding: 4px 0 !important;
-  font-size: 11px !important;
+  padding: 6px 0 !important;
+  font-size: 12px !important;
 }
 
 /* --------------------------------------------------------------------------
    SLIDE 8: REFERENCES
    -------------------------------------------------------------------------- */
 #references .section-head {
-  margin-bottom: 10px !important;
+  margin-bottom: 14px !important;
 }
 
 #references .sources {
-  column-gap: 28px !important;
+  column-gap: 40px !important;
 }
 
 #references .sources a {
-  padding: 8px 0 !important;
-  gap: 12px !important;
+  padding: 12px 0 !important;
+  gap: 16px !important;
 }
 
 #references .sources strong {
-  font-size: 12.5px !important;
+  font-size: 13.5px !important;
 }
 
 #references .sources small {
-  font-size: 10.5px !important;
+  font-size: 11.5px !important;
 }
 
 #references .source-download {
-  margin-top: 12px !important;
-  font-size: 12px !important;
+  margin-top: 16px !important;
+  font-size: 13px !important;
 }
 
 /* --------------------------------------------------------------------------
    SLIDE 9: DECISION & CLOSING
    -------------------------------------------------------------------------- */
 #decision .section-head {
-  margin-bottom: 8px !important;
+  margin-bottom: 10px !important;
 }
 
 #decision .decision-options {
-  gap: 8px !important;
-  margin-bottom: 8px !important;
+  gap: 10px !important;
+  margin-bottom: 10px !important;
 }
 
 #decision .decision-options button {
-  padding: 8px 10px !important;
-  font-size: 11px !important;
+  padding: 12px 14px !important;
+  font-size: 12.5px !important;
+  border-radius: 12px !important;
 }
 
 #decision .decision-result {
-  padding: 10px 16px !important;
-  gap: 16px !important;
+  padding: 14px 22px !important;
+  gap: 24px !important;
+  border-radius: 14px !important;
 }
 
 #decision .decision-result h3 {
-  font-size: 24px !important;
-  min-width: 100px !important;
+  font-size: 28px !important;
+  min-width: 130px !important;
 }
 
 #decision .decision-result p {
-  font-size: 11.5px !important;
-  line-height: 1.4 !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
 }
 
 #decision .hybrid-board {
-  padding: 10px 16px !important;
-  margin-bottom: 8px !important;
-  gap: 16px !important;
+  padding: 14px 22px !important;
+  margin-bottom: 10px;
+  gap: 22px !important;
+  border-radius: 14px !important;
 }
 
 #decision .hybrid-board h3 {
-  font-size: 17px !important;
+  font-size: 19px !important;
 }
 
 #decision .hybrid-board p {
-  font-size: 11px !important;
-  line-height: 1.35 !important;
+  font-size: 12.5px !important;
+  line-height: 1.5 !important;
   margin-top: 4px !important;
 }
 
 #decision .hybrid-board .api-illustration {
-  max-height: 65px !important;
+  max-height: 75px !important;
 }
 
 #decision .closing {
-  padding: 8px 0 4px !important;
+  padding: 12px 0 6px !important;
 }
 
 #decision .closing h2 {
-  font-size: 20px !important;
+  font-size: 24px !important;
 }
 
 #decision .closing p {
-  margin: 3px 0 !important;
-  font-size: 11.5px !important;
-  line-height: 1.4 !important;
+  margin: 4px 0 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
 }
 
 #decision .closing .button {
-  padding: 4px 6px 4px 14px !important;
-  font-size: 11.5px !important;
-  margin-top: 4px !important;
+  padding: 6px 8px 6px 18px !important;
+  font-size: 12.5px !important;
+  margin-top: 6px !important;
 }
 
 #decision footer {
-  padding: 8px 0 4px !important;
-  margin-top: 6px !important;
+  padding: 10px 0 4px !important;
+  margin-top: 8px !important;
+  font-size: 11px !important;
 }
