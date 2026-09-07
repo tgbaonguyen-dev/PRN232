@@ -819,8 +819,6 @@ if (insertTarget) {
       }
     });
 
-    // Only show top nav on Slide 1 (#home)
-    document.body.classList.toggle("show-nav", target.slideId === "home");
 
     // Execute step action
     target.run();
