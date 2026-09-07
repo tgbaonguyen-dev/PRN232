@@ -702,6 +702,8 @@ $(".closing").insertAdjacentHTML(
 
     // Update main nav active link
     const activeId = slides[currentSlide]?.id;
+    // Only show top nav bar on Slide 0 (#home), hide on all other slides
+    document.body.classList.toggle("show-nav", currentSlide === 0);
     $$(".nav nav a").forEach((a) => {
       const href = a.getAttribute("href");
       a.classList.toggle("current", href === `#${activeId}`);
