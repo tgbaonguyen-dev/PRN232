@@ -1645,10 +1645,23 @@ body.slide-deck-mode .nav {
               visibility 0.3s;
 }
 
+body.slide-deck-mode:not(.show-nav) .nav {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  transform: translate(-50%, -24px) !important;
 body.slide-deck-mode .nav {
+/* Completely hide top nav and scroll link in slide deck mode */
+body.slide-deck-mode .nav,
+header.nav {
   display: none !important;
 }
 
+body.slide-deck-mode.show-nav .nav {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translate(-50%, 0);
 body.slide-deck-mode .hero-bottom a {
   display: none !important;
 }

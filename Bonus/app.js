@@ -568,15 +568,21 @@ function menu(open) {
   $("#menu").inert = !open;
   $("#menu-button").setAttribute("aria-expanded", open);
   $("#menu-button").setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
+  $("#menu-button")?.setAttribute("aria-expanded", open);
+  $("#menu-button")?.setAttribute("aria-label", open ? "Đóng menu" : "Mở menu");
   document.body.style.overflow = open ? "hidden" : "";
   if (open) $("#menu a").focus();
 }
 $("#menu-button").onclick = () => menu(!$("#menu").classList.contains("open"));
+if ($("#menu-button")) {
+  $("#menu-button").onclick = () => menu(!$("#menu").classList.contains("open"));
+}
 $$("#menu a").forEach((a) => (a.onclick = () => menu(false)));
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && $("#menu").classList.contains("open")) {
     menu(false);
     $("#menu-button").focus();
+    $("#menu-button")?.focus();
   }
   if ($("#menu").classList.contains("open") && e.key === "Tab") {
     const list = [$("#menu-button"), ...$$("#menu a")];
@@ -673,31 +679,37 @@ if (insertTarget) {
     {
       slideId: "home",
       run: () => {}
+      run: () => {},
     },
     // 1: Trang 2 (Overview) - SOAP
     {
       slideId: "overview",
       run: () => showArchitecture(0)
+      run: () => showArchitecture(0),
     },
     // 2: Trang 2 (Overview) - REST
     {
       slideId: "overview",
       run: () => showArchitecture(1)
+      run: () => showArchitecture(1),
     },
     // 3: Trang 2 (Overview) - GraphQL
     {
       slideId: "overview",
       run: () => showArchitecture(2)
+      run: () => showArchitecture(2),
     },
     // 4: Trang 2 (Overview) - gRPC
     {
       slideId: "overview",
       run: () => showArchitecture(3)
+      run: () => showArchitecture(3),
     },
     // 5: Trang 3 (Compare) - Chạy animation SOAP -> REST -> GraphQL -> gRPC -> Tất cả
     {
       slideId: "compare",
       run: () => runComparisonCycle()
+      run: () => runComparisonCycle(),
     },
     // 6: Trang 4 (Tradeoffs) - Hiển thị toàn bộ 3 đánh đổi
     {
@@ -705,77 +717,93 @@ if (insertTarget) {
       run: () => {
         $$(".trade-list details").forEach((d) => (d.open = true));
       }
+      },
     },
     // 7: Trang 5 (Case Study) - Giữ nguyên trang SV chọn REST
     {
       slideId: "case",
       run: () => {}
+      run: () => {},
     },
     // 8: Trang 6 (Demo) - 200 OK (Thành công, gửi request)
     {
       slideId: "demo",
       run: () => runDemoScenario("200")
+      run: () => runDemoScenario("200"),
     },
     // 9: Trang 6 (Demo) - 304 Not Modified (Trùng khớp)
     {
       slideId: "demo",
       run: () => runDemoScenario("304")
+      run: () => runDemoScenario("304"),
     },
     // 10: Trang 6 (Demo) - 403 Forbidden (Không có quyền)
     {
       slideId: "demo",
       run: () => runDemoScenario("403")
+      run: () => runDemoScenario("403"),
     },
     // 11: Trang 6 (Demo) - 404 Not Found (Không tồn tại)
     {
       slideId: "demo",
       run: () => runDemoScenario("404")
+      run: () => runDemoScenario("404"),
     },
     // 12: Trang 7 (System) - Tier 1: Client tier
     {
       slideId: "system",
       run: () => showTier(0)
+      run: () => showTier(0),
     },
     // 13: Trang 7 (System) - Tier 2: Gateway tier
     {
       slideId: "system",
       run: () => showTier(1)
+      run: () => showTier(1),
     },
     // 14: Trang 7 (System) - Tier 3: Application tier
     {
       slideId: "system",
       run: () => showTier(2)
+      run: () => showTier(2),
     },
     // 15: Trang 7 (System) - Tier 4: Persistence tier
     {
       slideId: "system",
       run: () => showTier(3)
+      run: () => showTier(3),
     },
     // 16: Trang 8 (References) - Tài liệu tham khảo
     {
       slideId: "references",
       run: () => {}
+      run: () => {},
     },
     // 17: Trang 9 (Decision) - Priority 01: CRUD & HTTP caching
     {
       slideId: "decision",
       run: () => decide(0)
+      run: () => decide(0),
     },
     // 18: Trang 9 (Decision) - Priority 02: UI đa dạng & query lồng sâu
     {
       slideId: "decision",
       run: () => decide(1)
+      run: () => decide(1),
     },
     // 19: Trang 9 (Decision) - Priority 03: Microservices & streaming
     {
       slideId: "decision",
       run: () => decide(2)
+      run: () => decide(2),
     },
     // 20: Trang 9 (Decision) - Priority 04: Legacy & chuẩn WS-*
     {
       slideId: "decision",
       run: () => decide(3)
     }
+      run: () => decide(3),
+    },
   ];
 
   let currentStep = 0;
@@ -819,6 +847,8 @@ if (insertTarget) {
       }
     });
 
+    // Only show top nav on Slide 1 (#home)
+    document.body.classList.toggle("show-nav", target.slideId === "home");
 
     // Execute step action
     target.run();
@@ -884,6 +914,7 @@ if (insertTarget) {
         "7": 12, // Slide 7 (System Tier 1)
         "8": 16, // Slide 8 (References)
         "9": 17  // Slide 9 (Decision)
+        "9": 17, // Slide 9 (Decision)
       };
       if (keyMap[e.key] !== undefined) {
         e.preventDefault();
@@ -904,6 +935,12 @@ if (insertTarget) {
   document.addEventListener("click", (e) => {
     // Ignore clicks on buttons, inputs, links, details
     if (e.target.closest("button, a, select, input, summary, details, .tabs, .chips, pre, code")) return;
+    if (
+      e.target.closest(
+        "button, a, select, input, summary, details, .tabs, .chips, pre, code",
+      )
+    )
+      return;
     nextStep();
   });
 
@@ -934,5 +971,14 @@ if (insertTarget) {
     if (found !== -1) currentStep = found;
   }
   applyStep(currentStep);
+
+  // Expose controls for automation / recording
+  window.deck = {
+    applyStep,
+    nextStep,
+    prevStep,
+    steps,
+    getCurrentStep: () => currentStep,
+  };
 })();
 
