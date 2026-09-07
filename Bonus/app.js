@@ -609,10 +609,13 @@ $(".case-feature .stat").insertAdjacentHTML(
   "beforebegin",
   studentIllustration(),
 );
-$(".closing").insertAdjacentHTML(
-  "beforebegin",
-  `<div class="shell"><div class="hybrid-board"><div><span class="eyebrow">HYBRID ARCHITECTURE</span><h3>Mỗi phần của hệ thống,<br><em>một cách kết nối phù hợp.</em></h3><p>REST hoặc GraphQL phục vụ Web và Mobile. gRPC kết nối các dịch vụ trong mạng nội bộ.</p><div class="tags" style="margin-top:20px"><span>North–South</span><span>East–West</span></div></div>${apiIllustration("hybrid", "hybrid")}</div></div>`,
-);
+const insertTarget = $(".closing") || $("#decision footer");
+if (insertTarget) {
+  insertTarget.insertAdjacentHTML(
+    "beforebegin",
+    `<div class="shell"><div class="hybrid-board"><div><span class="eyebrow">HYBRID ARCHITECTURE</span><h3>Mỗi phần của hệ thống,<br><em>một cách kết nối phù hợp.</em></h3><p>REST hoặc GraphQL phục vụ Web và Mobile. gRPC kết nối các dịch vụ trong mạng nội bộ.</p><div class="tags" style="margin-top:20px"><span>North–South</span><span>East–West</span></div></div>${apiIllustration("hybrid", "hybrid")}</div></div>`,
+  );
+}
 
 // ============================================================================
 // STEP-BY-STEP PRESENTATION CLICKER SYSTEM
@@ -753,10 +756,25 @@ $(".closing").insertAdjacentHTML(
       slideId: "references",
       run: () => {}
     },
-    // 17: Trang 9 (Decision) - Khung lựa chọn & Tổng kết
+    // 17: Trang 9 (Decision) - Priority 01: CRUD & HTTP caching
     {
       slideId: "decision",
-      run: () => {}
+      run: () => decide(0)
+    },
+    // 18: Trang 9 (Decision) - Priority 02: UI đa dạng & query lồng sâu
+    {
+      slideId: "decision",
+      run: () => decide(1)
+    },
+    // 19: Trang 9 (Decision) - Priority 03: Microservices & streaming
+    {
+      slideId: "decision",
+      run: () => decide(2)
+    },
+    // 20: Trang 9 (Decision) - Priority 04: Legacy & chuẩn WS-*
+    {
+      slideId: "decision",
+      run: () => decide(3)
     }
   ];
 
