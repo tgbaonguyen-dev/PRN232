@@ -6,7 +6,7 @@
   const button = document.createElement('button');
   button.className = 'motion-control';
   button.setAttribute('aria-label', 'Tạm dừng chuyển nội dung tự động');
-  document.querySelector('footer').append(button);
+  // document.querySelector('footer').append(button);
   const progress = document.createElement('div');
   progress.className = 'reading-progress';
   progress.setAttribute('aria-hidden','true');

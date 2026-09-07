@@ -615,13 +615,13 @@ $(".closing").insertAdjacentHTML(
 );
 
 // ============================================================================
-// SLIDE DECK PRESENTATION SYSTEM (Auto-fit to any screen height)
+// STEP-BY-STEP PRESENTATION CLICKER SYSTEM
 // ============================================================================
-(function initSlideDeck() {
+(function initPresentationDeck() {
   document.body.classList.add("slide-deck-mode");
   const slides = [...$$(".chapter")];
 
-  // Wrap slide content in .slide-stage for perfect proportional scaling
+  // Wrap slide content in .slide-stage for scaling and safe layout
   slides.forEach((s) => {
     s.classList.add("slide");
     if (!s.querySelector(".slide-stage")) {
@@ -634,149 +634,197 @@ $(".closing").insertAdjacentHTML(
     }
   });
 
-  let currentSlide = 0;
+  // Cycle animation for Comparison Table (SOAP -> REST -> GraphQL -> gRPC -> Tất cả)
+  let compareTimer = null;
+  function runComparisonCycle() {
+    clearTimeout(compareTimer);
+    const btns = $$("#compare-filter button");
+    if (!btns || btns.length < 5) return;
+    const order = [1, 2, 3, 4, 0]; // SOAP, REST, GraphQL, gRPC, Tất cả
+    let idx = 0;
+    function next() {
+      if (idx < order.length) {
+        btns[order[idx]].click();
+        idx++;
+        compareTimer = setTimeout(next, 750);
+      }
+    }
+    next();
+  }
+
+  // Trigger Demo Scenario and Send Request
+  function runDemoScenario(code) {
+    const sel = $("#scenario");
+    if (sel) {
+      sel.value = code;
+      updateRequest();
+      setTimeout(() => {
+        $("#send")?.click();
+      }, 200);
+    }
+  }
+
+  // Linear Step-by-Step roadmap requested by user:
+  const steps = [
+    // 0: Trang 1 (Hero) - Mở đầu
+    {
+      slideId: "home",
+      run: () => {}
+    },
+    // 1: Trang 2 (Overview) - SOAP
+    {
+      slideId: "overview",
+      run: () => showArchitecture(0)
+    },
+    // 2: Trang 2 (Overview) - REST
+    {
+      slideId: "overview",
+      run: () => showArchitecture(1)
+    },
+    // 3: Trang 2 (Overview) - GraphQL
+    {
+      slideId: "overview",
+      run: () => showArchitecture(2)
+    },
+    // 4: Trang 2 (Overview) - gRPC
+    {
+      slideId: "overview",
+      run: () => showArchitecture(3)
+    },
+    // 5: Trang 3 (Compare) - Chạy animation SOAP -> REST -> GraphQL -> gRPC -> Tất cả
+    {
+      slideId: "compare",
+      run: () => runComparisonCycle()
+    },
+    // 6: Trang 4 (Tradeoffs) - Hiển thị toàn bộ 3 đánh đổi
+    {
+      slideId: "tradeoffs",
+      run: () => {
+        $$(".trade-list details").forEach((d) => (d.open = true));
+      }
+    },
+    // 7: Trang 5 (Case Study) - Giữ nguyên trang SV chọn REST
+    {
+      slideId: "case",
+      run: () => {}
+    },
+    // 8: Trang 6 (Demo) - 200 OK (Thành công, gửi request)
+    {
+      slideId: "demo",
+      run: () => runDemoScenario("200")
+    },
+    // 9: Trang 6 (Demo) - 304 Not Modified (Trùng khớp)
+    {
+      slideId: "demo",
+      run: () => runDemoScenario("304")
+    },
+    // 10: Trang 6 (Demo) - 403 Forbidden (Không có quyền)
+    {
+      slideId: "demo",
+      run: () => runDemoScenario("403")
+    },
+    // 11: Trang 6 (Demo) - 404 Not Found (Không tồn tại)
+    {
+      slideId: "demo",
+      run: () => runDemoScenario("404")
+    },
+    // 12: Trang 7 (System) - Tier 1: Client tier
+    {
+      slideId: "system",
+      run: () => showTier(0)
+    },
+    // 13: Trang 7 (System) - Tier 2: Gateway tier
+    {
+      slideId: "system",
+      run: () => showTier(1)
+    },
+    // 14: Trang 7 (System) - Tier 3: Application tier
+    {
+      slideId: "system",
+      run: () => showTier(2)
+    },
+    // 15: Trang 7 (System) - Tier 4: Persistence tier
+    {
+      slideId: "system",
+      run: () => showTier(3)
+    },
+    // 16: Trang 8 (References) - Tài liệu tham khảo
+    {
+      slideId: "references",
+      run: () => {}
+    },
+    // 17: Trang 9 (Decision) - Khung lựa chọn & Tổng kết
+    {
+      slideId: "decision",
+      run: () => {}
+    }
+  ];
+
+  let currentStep = 0;
 
   function fitSlideToScreen(slide) {
     if (!slide) return;
     const stage = slide.querySelector(".slide-stage");
     if (!stage) return;
-    
-    // Reset transform to measure original natural height
     stage.style.transform = "";
-    
-    // Safe available vertical height (window height minus nav and controls safe margins)
     const availH = slide.clientHeight - 8;
     const contentH = stage.scrollHeight || stage.offsetHeight;
-    
     if (contentH > availH && availH > 200) {
-      const scale = Math.max(0.55, Math.min(1, (availH - 6) / contentH));
+      const scale = Math.max(0.6, Math.min(1, (availH - 4) / contentH));
       stage.style.transform = `scale(${scale.toFixed(3)})`;
-      stage.style.transformOrigin = "center center";
+      stage.style.transformOrigin = "center top";
     } else {
       stage.style.transform = "";
     }
   }
 
-  function updateSlideUI() {
-    slides.forEach((s, i) => {
-      const isActive = i === currentSlide;
-      s.classList.toggle("active", isActive);
-      s.setAttribute("aria-hidden", String(!isActive));
-      if (isActive) {
+  function applyStep(stepIndex) {
+    if (stepIndex < 0 || stepIndex >= steps.length) return;
+    currentStep = stepIndex;
+    const target = steps[currentStep];
+
+    // Activate matching slide
+    slides.forEach((s) => {
+      const isMatch = s.id === target.slideId;
+      s.classList.toggle("active", isMatch);
+      s.setAttribute("aria-hidden", String(!isMatch));
+      if (isMatch) {
         s.scrollTop = 0;
-        // Make all reveal items in active slide visible immediately
         s.querySelectorAll(".reveal").forEach((el) =>
           el.classList.add("visible"),
         );
         s.querySelectorAll(".reveal-item").forEach((el) =>
           el.classList.add("in-view"),
         );
-        // Auto-fit active slide to screen
         requestAnimationFrame(() => fitSlideToScreen(s));
       }
     });
 
-    // Update slide counter and name in bottom bar
-    const numText = `0${currentSlide + 1} / 0${slides.length}`;
-    const nameText = names[currentSlide] || "";
-    const numEl = $("#slide-number");
-    const nameEl = $("#slide-name");
-    if (numEl) numEl.textContent = numText;
-    if (nameEl) nameEl.textContent = nameText;
+    // Only show top nav on Slide 1 (#home)
+    document.body.classList.toggle("show-nav", target.slideId === "home");
 
-    // Update Prev / Next buttons state
-    const prevBtn = $("#slide-prev");
-    const nextBtn = $("#slide-next");
-    const edgePrev = $("#edge-prev");
-    const edgeNext = $("#edge-next");
-    if (prevBtn) prevBtn.disabled = currentSlide === 0;
-    if (edgePrev) edgePrev.disabled = currentSlide === 0;
-    if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
-    if (edgeNext) edgeNext.disabled = currentSlide === slides.length - 1;
+    // Execute step action
+    target.run();
 
-    // Update indicator dots
-    $$(".slide-dot").forEach((dot, i) => {
-      dot.classList.toggle("active", i === currentSlide);
-      dot.setAttribute("aria-current", i === currentSlide ? "step" : "false");
-    });
-
-    // Update main nav active link
-    const activeId = slides[currentSlide]?.id;
-    // Only show top nav bar on Slide 0 (#home), hide on all other slides
-    document.body.classList.toggle("show-nav", currentSlide === 0);
-    $$(".nav nav a").forEach((a) => {
-      const href = a.getAttribute("href");
-      a.classList.toggle("current", href === `#${activeId}`);
-    });
-
-    // Update URL hash without causing viewport jumping
-    if (activeId && window.location.hash !== `#${activeId}`) {
-      history.replaceState(null, "", `#${activeId}`);
+    // Update URL hash
+    if (window.location.hash !== `#${target.slideId}`) {
+      history.replaceState(null, "", `#${target.slideId}`);
     }
   }
 
-  function goToSlide(index) {
-    if (index < 0 || index >= slides.length) return;
-    currentSlide = index;
-    updateSlideUI();
-  }
-
-  function nextSlide() {
-    if (currentSlide < slides.length - 1) {
-      goToSlide(currentSlide + 1);
+  function nextStep() {
+    if (currentStep < steps.length - 1) {
+      applyStep(currentStep + 1);
     }
   }
 
-  function prevSlide() {
-    if (currentSlide > 0) {
-      goToSlide(currentSlide - 1);
+  function prevStep() {
+    if (currentStep > 0) {
+      applyStep(currentStep - 1);
     }
   }
 
-  // Generate indicator dots
-  const dotsContainer = $("#slide-dots");
-  if (dotsContainer) {
-    dotsContainer.innerHTML = slides
-      .map(
-        (_, i) =>
-          `<button class="slide-dot ${i === 0 ? "active" : ""}" data-index="${i}" aria-label="Đến slide 0${i + 1}: ${names[i] || ""}"></button>`,
-      )
-      .join("");
-    $$(".slide-dot").forEach((d) => {
-      d.onclick = () => goToSlide(Number(d.dataset.index));
-    });
-  }
-
-  // Button clicks
-  $("#slide-prev")?.addEventListener("click", prevSlide);
-  $("#slide-next")?.addEventListener("click", nextSlide);
-  $("#edge-prev")?.addEventListener("click", prevSlide);
-  $("#edge-next")?.addEventListener("click", nextSlide);
-
-  // Fullscreen button
-  $("#fullscreen-btn")?.addEventListener("click", () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-      document.exitFullscreen().catch(() => {});
-    }
-  });
-
-  // Intercept all hash links (Nav bar, Hero CTA, Footer links)
-  $$('a[href^="#"]').forEach((a) => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href || href === "#") return;
-      const targetId = href.slice(1);
-      const targetIdx = slides.findIndex((s) => s.id === targetId);
-      if (targetIdx !== -1) {
-        e.preventDefault();
-        goToSlide(targetIdx);
-      }
-    });
-  });
-
-  // Keyboard navigation
+  // Keyboard navigation: Arrow keys & Space
   document.addEventListener("keydown", (e) => {
     if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) return;
     if (
@@ -793,25 +841,36 @@ $(".closing").insertAdjacentHTML(
       (e.key === " " && document.activeElement?.tagName !== "BUTTON")
     ) {
       e.preventDefault();
-      nextSlide();
+      nextStep();
     } else if (
       e.key === "ArrowLeft" ||
       e.key === "ArrowUp" ||
       e.key === "PageUp"
     ) {
       e.preventDefault();
-      prevSlide();
+      prevStep();
     } else if (e.key === "Home") {
       e.preventDefault();
-      goToSlide(0);
+      applyStep(0);
     } else if (e.key === "End") {
       e.preventDefault();
-      goToSlide(slides.length - 1);
+      applyStep(steps.length - 1);
     } else if (/^[1-9]$/.test(e.key)) {
-      const num = parseInt(e.key, 10) - 1;
-      if (num < slides.length) {
+      // Direct jump mapping for 1-9
+      const keyMap = {
+        "1": 0,  // Slide 1 (Home)
+        "2": 1,  // Slide 2 (Overview - SOAP)
+        "3": 5,  // Slide 3 (Compare table)
+        "4": 6,  // Slide 4 (Tradeoffs)
+        "5": 7,  // Slide 5 (Case study)
+        "6": 8,  // Slide 6 (Demo 200)
+        "7": 12, // Slide 7 (System Tier 1)
+        "8": 16, // Slide 8 (References)
+        "9": 17  // Slide 9 (Decision)
+      };
+      if (keyMap[e.key] !== undefined) {
         e.preventDefault();
-        goToSlide(num);
+        applyStep(keyMap[e.key]);
       }
     } else if (e.key === "f" || e.key === "F") {
       if (!["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
@@ -824,23 +883,39 @@ $(".closing").insertAdjacentHTML(
     }
   });
 
-  // Re-fit active slide on window resize or orientation change
-  window.addEventListener("resize", () => {
-    fitSlideToScreen(slides[currentSlide]);
+  // Click on background advances to next step (presentation remote style)
+  document.addEventListener("click", (e) => {
+    // Ignore clicks on buttons, inputs, links, details
+    if (e.target.closest("button, a, select, input, summary, details, .tabs, .chips, pre, code")) return;
+    nextStep();
   });
 
-  // Initial sync with URL hash
+  // Re-fit on window resize
+  window.addEventListener("resize", () => {
+    const activeSlide = slides.find((s) => s.id === steps[currentStep].slideId);
+    fitSlideToScreen(activeSlide);
+  });
+
+  // Nav link click mapping
+  $$('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (!href || href === "#") return;
+      const targetId = href.slice(1);
+      const foundIdx = steps.findIndex((st) => st.slideId === targetId);
+      if (foundIdx !== -1) {
+        e.preventDefault();
+        applyStep(foundIdx);
+      }
+    });
+  });
+
+  // Initial step based on URL hash
   const initialHash = window.location.hash.slice(1);
   if (initialHash) {
-    const initIdx = slides.findIndex((s) => s.id === initialHash);
-    if (initIdx !== -1) currentSlide = initIdx;
+    const found = steps.findIndex((st) => st.slideId === initialHash);
+    if (found !== -1) currentStep = found;
   }
-  updateSlideUI();
-
-  window.addEventListener("hashchange", () => {
-    const h = window.location.hash.slice(1);
-    const idx = slides.findIndex((s) => s.id === h);
-    if (idx !== -1 && idx !== currentSlide) goToSlide(idx);
-  });
+  applyStep(currentStep);
 })();
 

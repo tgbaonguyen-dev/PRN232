@@ -1619,7 +1619,7 @@ footer > span {
 
 
 /* ==========================================================================
-   SLIDE PRESENTATION MODE (Perfect Viewport Auto-fit for 1920x1080 & Laptops)
+   SLIDE PRESENTATION MODE (Ultra-compact, no overflow, clean recording frame)
    ========================================================================== */
 
 body.slide-deck-mode {
@@ -1633,22 +1633,22 @@ body.slide-deck-mode {
   padding: 0;
 }
 
+/* Hide top nav on all slides except Slide 1 (#home) */
 body.slide-deck-mode .nav {
   top: 14px;
-  padding: 8px 16px 8px 22px;
-  width: min(1080px, calc(100% - 48px));
+  padding: 7px 16px 7px 20px;
+  width: min(1040px, calc(100% - 40px));
   z-index: 25;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               visibility 0.3s;
 }
 
-/* Hide top nav bar on all slides except Slide 1 (#home) */
 body.slide-deck-mode:not(.show-nav) .nav {
   opacity: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
-  transform: translate(-50%, -28px) !important;
+  transform: translate(-50%, -24px) !important;
 }
 
 body.slide-deck-mode.show-nav .nav {
@@ -1656,11 +1656,6 @@ body.slide-deck-mode.show-nav .nav {
   pointer-events: auto;
   visibility: visible;
   transform: translate(-50%, 0);
-}
-
-/* More vertical space for slides since nav is hidden */
-body.slide-deck-mode .slide {
-  padding: 38px 45px 55px;
 }
 
 body.slide-deck-mode main {
@@ -1671,25 +1666,26 @@ body.slide-deck-mode main {
   overflow: hidden;
 }
 
+/* Slides: NEVER clip top heading (justify-content: flex-start) */
 body.slide-deck-mode .slide {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  padding: 68px 50px 62px;
+  padding: 24px 44px 20px !important;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  overflow: hidden !important;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: scale(0.985) translateY(8px);
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.35s;
+  transform: scale(0.99) translateY(6px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.3s;
   z-index: 1;
 }
 
@@ -1701,599 +1697,597 @@ body.slide-deck-mode .slide.active {
   z-index: 2;
 }
 
-/* Inner wrapper for auto-scaling and centered layout */
+/* Inner stage that auto-scales if needed */
 .slide-stage {
   width: 100%;
-  max-width: 1320px;
+  max-width: 1280px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  transition: transform 0.25s ease;
-  transform-origin: center center;
+  justify-content: flex-start;
+  transform-origin: center top;
+  transition: transform 0.2s ease;
 }
 
-/* Compact section head */
+/* Universal compact section-head across slides */
 body.slide-deck-mode .section-head {
-  margin-bottom: 18px;
-  gap: 32px;
+  margin-bottom: 12px !important;
+  gap: 24px !important;
 }
 
 body.slide-deck-mode .section-head > div h2 {
-  font-size: clamp(24px, 2.6vw, 38px);
-  line-height: 1.2;
+  font-size: clamp(22px, 2.4vw, 32px) !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.015em !important;
 }
 
 body.slide-deck-mode .section-head > p {
-  font-size: 13.5px;
-  line-height: 1.6;
-  max-width: 380px;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  max-width: 380px !important;
+  padding-bottom: 0 !important;
 }
 
 body.slide-deck-mode .eyebrow {
-  margin-bottom: 12px;
-  font-size: 10.5px;
+  margin-bottom: 4px !important;
+  font-size: 10px !important;
+  letter-spacing: 1px !important;
 }
 
-/* Slide 1: Hero */
+/* --------------------------------------------------------------------------
+   SLIDE 1: HOME (HERO)
+   -------------------------------------------------------------------------- */
 body.slide-deck-mode .hero.slide {
-  padding-top: 30px;
-  padding-bottom: 40px;
+  justify-content: center !important;
+  padding: 20px 48px !important;
+}
+
+body.slide-deck-mode .hero.slide .slide-stage {
+  height: 100%;
+  justify-content: center;
+}
+
+body.slide-deck-mode .hero {
+  min-height: auto;
+  height: auto;
 }
 
 body.slide-deck-mode .hero-copy h1 {
-  font-size: clamp(32px, 3.6vw, 52px);
+  font-size: clamp(28px, 3.2vw, 46px);
   line-height: 1.16;
 }
 
 body.slide-deck-mode .hero-copy p {
-  font-size: 14.5px;
-  line-height: 1.65;
-  margin-top: 16px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin-top: 14px;
   max-width: 440px;
 }
 
 body.slide-deck-mode .hero .actions {
-  margin-top: 22px;
-  gap: 18px;
+  margin-top: 18px;
+  gap: 16px;
 }
 
 body.slide-deck-mode .hero-meta {
-  margin-top: 26px;
-  gap: 18px;
+  margin-top: 20px;
+  gap: 16px;
+  font-size: 10px;
 }
 
 body.slide-deck-mode .network {
-  max-width: 440px;
-  width: 95%;
+  max-width: 400px;
+  width: 90%;
   margin: 0 auto;
 }
 
 body.slide-deck-mode .hero-bottom {
-  bottom: 14px;
-  left: 50px;
-  right: 50px;
-  padding-top: 12px;
-  font-size: 10px;
+  bottom: 12px;
+  left: 48px;
+  right: 48px;
+  padding-top: 10px;
+  font-size: 9.5px;
 }
 
-/* Slide 2: Overview */
-body.slide-deck-mode .tabs {
-  margin-bottom: 14px;
-  gap: 10px;
+/* --------------------------------------------------------------------------
+   SLIDE 2: OVERVIEW (SOAP, REST, GraphQL, gRPC) - Ultra Compact & Fitted
+   -------------------------------------------------------------------------- */
+#overview .section-head {
+  margin-bottom: 8px !important;
 }
 
-body.slide-deck-mode .tabs button {
-  padding: 11px 16px;
-  font-size: 15px;
-  border-radius: 12px;
+#overview .tabs {
+  margin-bottom: 8px !important;
+  gap: 8px !important;
 }
 
-body.slide-deck-mode .architecture-panel {
-  padding: 20px 28px;
-  gap: 32px;
+#overview .tabs button {
+  padding: 6px 14px !important;
+  font-size: 13.5px !important;
+  border-radius: 10px !important;
 }
 
-body.slide-deck-mode .architecture-panel h3 {
-  font-size: 32px;
-  margin: 2px 0 8px;
+#overview .tabs button small {
+  font-size: 10px !important;
 }
 
-body.slide-deck-mode .architecture-panel p {
-  font-size: 13.5px;
-  line-height: 1.6;
-  margin: 8px 0;
+#overview #architecture-panel {
+  padding: 12px 20px !important;
+  gap: 20px !important;
+  border-radius: 16px !important;
 }
 
-body.slide-deck-mode .architecture-panel pre {
-  margin: 8px 0 10px;
-  font-size: 11.5px;
-  line-height: 1.6;
-  max-height: 160px;
+#overview .architecture-art {
+  padding: 8px 16px !important;
+  margin: 0 0 4px !important;
+  gap: 16px !important;
+  border-radius: 12px !important;
 }
 
-body.slide-deck-mode .architecture-panel ul {
-  font-size: 12.5px;
-  line-height: 1.6;
+#overview .architecture-art h4 {
+  font-size: 15px !important;
+  line-height: 1.25 !important;
 }
 
-body.slide-deck-mode .architecture-panel li {
-  margin: 4px 0;
+#overview .architecture-art p {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  margin: 3px 0 0 !important;
 }
 
-/* Slide 3: Compare Table */
-body.slide-deck-mode .chips {
-  margin: 10px 0 14px;
+#overview .architecture-art .api-illustration {
+  max-height: 68px !important;
+  width: auto !important;
 }
 
-body.slide-deck-mode .chips button {
-  padding: 6px 14px;
-  font-size: 11.5px;
+#overview .architecture-panel h3 {
+  font-size: 22px !important;
+  margin: 0 0 2px !important;
 }
 
-body.slide-deck-mode #comparison thead th > span {
-  font-size: 18px;
+#overview .architecture-panel .code-label {
+  font-size: 9.5px !important;
+  letter-spacing: 1px !important;
 }
 
-body.slide-deck-mode #comparison thead th small {
-  font-size: 11px;
-  margin-top: 3px;
+#overview .architecture-panel p {
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+  margin: 4px 0 !important;
 }
 
-body.slide-deck-mode #comparison td strong {
-  font-size: 13px;
-  margin-bottom: 2px;
+#overview .tags {
+  gap: 5px !important;
 }
 
-body.slide-deck-mode #comparison td small {
-  font-size: 11.5px;
-  line-height: 1.45;
+#overview .tags span {
+  font-size: 9.5px !important;
+  padding: 2px 7px !important;
 }
 
-body.slide-deck-mode #compare .footnote {
-  margin-top: 10px;
-  font-size: 11.5px;
+#overview .architecture-panel pre {
+  margin: 4px 0 6px !important;
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
+  max-height: 125px !important;
 }
 
-/* Slide 4: Tradeoffs */
-body.slide-deck-mode .trade-list details {
-  padding: 14px 0;
+#overview .architecture-panel ul {
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  padding-left: 14px !important;
 }
 
-body.slide-deck-mode .trade-list summary h3 {
-  font-size: 18px;
+#overview .architecture-panel li {
+  margin: 2px 0 !important;
 }
 
-body.slide-deck-mode .trade-list details > div {
-  padding: 14px 34px 4px;
-  gap: 28px;
-  font-size: 13.5px;
-  line-height: 1.65;
+/* --------------------------------------------------------------------------
+   SLIDE 3: COMPARE TABLE
+   -------------------------------------------------------------------------- */
+#compare .section-head {
+  margin-bottom: 6px !important;
 }
 
-/* Slide 5: Case Study */
-body.slide-deck-mode .case-grid {
-  gap: 30px;
+#compare .chips {
+  margin: 6px 0 10px !important;
+  gap: 6px !important;
 }
 
-body.slide-deck-mode .case-feature {
-  padding: 24px 28px;
+#compare .chips button {
+  padding: 4px 12px !important;
+  font-size: 11px !important;
 }
 
-body.slide-deck-mode .case-feature h3 {
-  font-size: 40px;
-  margin: 4px 0 12px;
+#compare #comparison {
+  font-size: 11.5px !important;
 }
 
-body.slide-deck-mode .case-feature p {
-  font-size: 14.5px;
+#compare #comparison th,
+#compare #comparison td {
+  padding: 7px 12px !important;
+  line-height: 1.35 !important;
 }
 
-body.slide-deck-mode .stat {
-  margin: 12px 0 10px;
+#compare #comparison thead th {
+  padding: 8px 12px !important;
 }
 
-body.slide-deck-mode .stat strong {
-  font-size: 28px;
+#compare #comparison thead th > span {
+  font-size: 16px !important;
 }
 
-body.slide-deck-mode .reasons article {
-  padding: 0 0 12px;
-  margin-bottom: 12px;
-  gap: 16px;
+#compare #comparison thead th small {
+  font-size: 10px !important;
+  margin-top: 1px !important;
 }
 
-body.slide-deck-mode .reasons h3 {
-  font-size: 16px;
-  margin-bottom: 4px;
+#compare #comparison td strong {
+  font-size: 12px !important;
+  margin-bottom: 1px !important;
 }
 
-body.slide-deck-mode .reasons p {
-  font-size: 13px;
-  line-height: 1.55;
+#compare #comparison td small {
+  font-size: 10.5px !important;
+  line-height: 1.35 !important;
 }
 
-body.slide-deck-mode .alternatives {
-  margin-top: 18px;
-  gap: 24px;
+#compare #comparison tbody th {
+  font-size: 11.5px !important;
 }
 
-body.slide-deck-mode .alternatives p {
-  font-size: 12.5px;
+#compare #comparison .criterion-number {
+  font-size: 9.5px !important;
+  margin-bottom: 1px !important;
 }
 
-body.slide-deck-mode .alternatives b {
-  font-size: 14.5px;
-  margin-bottom: 3px;
+#compare .footnote {
+  margin-top: 6px !important;
+  font-size: 10.5px !important;
 }
 
-/* Slide 6: Demo */
-body.slide-deck-mode .playground {
-  padding: 18px 22px;
+/* --------------------------------------------------------------------------
+   SLIDE 4: TRADEOFFS (All 3 details open)
+   -------------------------------------------------------------------------- */
+#tradeoffs .section-head {
+  margin-bottom: 10px !important;
 }
 
-body.slide-deck-mode .request-bar {
-  margin-top: 12px;
-  padding: 7px 12px;
+#tradeoffs .trade-list details {
+  padding: 8px 0 !important;
 }
 
-body.slide-deck-mode .flow {
-  padding: 12px 0;
-  font-size: 11.5px;
+#tradeoffs .trade-list summary h3 {
+  font-size: 15.5px !important;
 }
 
-body.slide-deck-mode .flow span {
-  padding: 6px 14px;
+#tradeoffs .trade-list details > div {
+  padding: 6px 24px 2px !important;
+  gap: 20px !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
 }
 
-body.slide-deck-mode .code-grid {
-  gap: 16px;
+/* --------------------------------------------------------------------------
+   SLIDE 5: CASE STUDY (REST for Student Management)
+   -------------------------------------------------------------------------- */
+#case .section-head {
+  margin-bottom: 10px !important;
 }
 
-body.slide-deck-mode .code-grid > div {
-  padding: 14px 18px;
+#case .case-grid {
+  gap: 22px !important;
 }
 
-body.slide-deck-mode .code-grid pre {
-  min-height: 140px;
-  max-height: 220px;
-  font-size: 11.5px;
-  line-height: 1.6;
+#case .case-feature {
+  padding: 16px 20px !important;
+  border-radius: 16px !important;
 }
 
-body.slide-deck-mode .controller {
-  margin-top: 10px;
-  padding-top: 8px;
+#case .case-feature h3 {
+  font-size: 32px !important;
+  margin: 2px 0 8px !important;
 }
 
-/* Slide 7: System */
-body.slide-deck-mode .system-grid {
-  gap: 24px;
+#case .case-feature p {
+  font-size: 13px !important;
+  line-height: 1.4 !important;
 }
 
-body.slide-deck-mode .tiers {
-  gap: 8px;
+#case .student-art {
+  height: 150px !important;
+  margin: 6px auto !important;
 }
 
-body.slide-deck-mode .tiers button {
-  padding: 12px 16px;
-  gap: 14px;
+#case .student-pass {
+  width: 165px !important;
+  padding: 10px !important;
+  transform: rotate(-5deg) scale(0.85) !important;
+  border-radius: 14px !important;
 }
 
-body.slide-deck-mode .tiers strong {
-  font-size: 14px;
+#case .student-avatar {
+  width: 38px !important;
+  height: 38px !important;
+  margin: 8px 0 4px !important;
 }
 
-body.slide-deck-mode .tiers small {
-  font-size: 11px;
+#case .pass-bottom {
+  margin-top: 8px !important;
+  padding-top: 6px !important;
 }
 
-body.slide-deck-mode .tier-detail {
-  padding: 20px 24px;
+#case .pass-bottom b {
+  font-size: 18px !important;
 }
 
-body.slide-deck-mode .tier-detail h3 {
-  font-size: 22px;
-  margin-bottom: 8px;
+#case .stat {
+  margin: 8px 0 6px !important;
 }
 
-body.slide-deck-mode .tier-detail p {
-  font-size: 13px;
-  line-height: 1.6;
+#case .stat strong {
+  font-size: 22px !important;
 }
 
-body.slide-deck-mode .tier-detail ul {
-  font-size: 12.5px;
-  line-height: 1.9;
-  margin-top: 12px;
+#case .reasons article {
+  padding: 0 0 8px !important;
+  margin-bottom: 8px !important;
+  gap: 14px !important;
 }
 
-body.slide-deck-mode .sequence {
-  margin-top: 18px;
-  gap: 28px;
+#case .reasons h3 {
+  font-size: 14.5px !important;
+  margin-bottom: 2px !important;
 }
 
-body.slide-deck-mode .sequence h3 {
-  font-size: 20px;
+#case .reasons p {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
 }
 
-body.slide-deck-mode .sequence li {
-  padding: 7px 0;
-  font-size: 12px;
+#case .reasons code {
+  font-size: 10.5px !important;
+  margin-top: 4px !important;
+  padding: 2px 6px !important;
 }
 
-/* Slide 8: References */
-body.slide-deck-mode .sources {
-  column-gap: 36px;
+#case .alternatives {
+  margin-top: 10px !important;
+  gap: 18px !important;
 }
 
-body.slide-deck-mode .sources a {
-  padding: 12px 0;
-  gap: 14px;
+#case .alternatives p {
+  font-size: 11.5px !important;
 }
 
-body.slide-deck-mode .sources strong {
-  font-size: 13.5px;
+#case .alternatives b {
+  font-size: 13.5px !important;
+  margin-bottom: 2px !important;
 }
 
-body.slide-deck-mode .sources small {
-  font-size: 11px;
+/* --------------------------------------------------------------------------
+   SLIDE 6: INTERACTIVE PLAYGROUND (Live Demo)
+   -------------------------------------------------------------------------- */
+#demo .section-head {
+  margin-bottom: 8px !important;
 }
 
-/* Slide 9: Decision & Closing */
-body.slide-deck-mode .decision-options {
-  gap: 10px;
-  margin-bottom: 12px;
+#demo .playground {
+  padding: 14px 18px !important;
 }
 
-body.slide-deck-mode .decision-options button {
-  padding: 12px 14px;
-  font-size: 12px;
+#demo .request-bar {
+  margin-top: 8px !important;
+  padding: 5px 10px !important;
+  border-radius: 10px !important;
 }
 
-body.slide-deck-mode .decision-result {
-  padding: 16px 24px;
-  gap: 24px;
+#demo .request-bar select {
+  padding: 6px !important;
+  font-size: 12px !important;
 }
 
-body.slide-deck-mode .decision-result h3 {
-  font-size: 30px;
-  min-width: 130px;
+#demo .request-bar .button {
+  padding: 5px 6px 5px 16px !important;
+  font-size: 12px !important;
 }
 
-body.slide-deck-mode .decision-result p {
-  font-size: 13px;
-  line-height: 1.6;
+#demo .flow {
+  padding: 8px 0 !important;
+  font-size: 11px !important;
+  gap: 12px !important;
 }
 
-body.slide-deck-mode .hybrid-board {
-  padding: 16px 24px !important;
-  margin-bottom: 14px;
-  gap: 24px;
+#demo .flow span {
+  padding: 4px 12px !important;
 }
 
-body.slide-deck-mode .hybrid-board h3 {
-  font-size: 20px;
+#demo .code-grid {
+  gap: 14px !important;
 }
 
-body.slide-deck-mode .hybrid-board p {
-  font-size: 12.5px;
-  line-height: 1.55;
-  margin-top: 8px;
+#demo .code-grid > div {
+  padding: 10px 14px !important;
 }
 
-body.slide-deck-mode .closing {
-  padding: 14px 0 8px;
+#demo .code-grid pre {
+  min-height: 120px !important;
+  max-height: 165px !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
 }
 
-body.slide-deck-mode .closing h2 {
-  font-size: 24px;
+#demo .controller {
+  margin-top: 8px !important;
+  padding-top: 6px !important;
 }
 
-body.slide-deck-mode .closing p {
-  margin: 6px 0;
-  font-size: 12.5px;
-  line-height: 1.55;
+/* --------------------------------------------------------------------------
+   SLIDE 7: UNDER THE HOOD (System Tiers & Cache-Aside)
+   -------------------------------------------------------------------------- */
+#system .section-head {
+  margin-bottom: 8px !important;
 }
 
-body.slide-deck-mode footer {
-  padding: 10px 0 6px;
-  margin-top: 10px;
+#system .system-grid {
+  gap: 18px !important;
 }
 
-/* ==========================================================================
-   SLIDE CONTROLS (Floating Navigation Bar & Edge Buttons)
-   ========================================================================== */
+#system .tiers {
+  gap: 6px !important;
+}
+
+#system .tiers button {
+  padding: 8px 12px !important;
+  gap: 10px !important;
+  border-radius: 10px !important;
+}
+
+#system .tiers strong {
+  font-size: 13px !important;
+}
+
+#system .tiers small {
+  font-size: 10px !important;
+}
+
+#system .tier-detail {
+  padding: 14px 18px !important;
+}
+
+#system .tier-detail h3 {
+  font-size: 18px !important;
+  margin-bottom: 4px !important;
+}
+
+#system .tier-detail p {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+#system .tier-detail ul {
+  font-size: 11.5px !important;
+  line-height: 1.5 !important;
+  margin-top: 8px !important;
+}
+
+#system .sequence {
+  margin-top: 10px !important;
+  gap: 20px !important;
+}
+
+#system .sequence h3 {
+  font-size: 16px !important;
+}
 
-.slide-controls {
-  position: fixed;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 12px 6px 14px;
-  background: rgba(14, 21, 22, 0.94);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(202, 240, 222, 0.2);
-  border-radius: 100px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55), 0 0 20px rgba(173, 243, 204, 0.08);
-  z-index: 35;
-  user-select: none;
+#system .sequence li {
+  padding: 4px 0 !important;
+  font-size: 11px !important;
 }
 
-.slide-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #182620;
-  border: 1px solid rgba(173, 243, 204, 0.22);
-  border-radius: 100px;
-  padding: 5px 12px;
-  color: var(--text);
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s var(--ease);
+/* --------------------------------------------------------------------------
+   SLIDE 8: REFERENCES
+   -------------------------------------------------------------------------- */
+#references .section-head {
+  margin-bottom: 10px !important;
 }
 
-.slide-btn:hover:not(:disabled) {
-  background: var(--mint);
-  color: #0c1c11;
-  border-color: var(--mint);
-  transform: translateY(-1px);
+#references .sources {
+  column-gap: 28px !important;
 }
 
-.slide-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+#references .sources a {
+  padding: 8px 0 !important;
+  gap: 12px !important;
 }
 
-.btn-arrow {
-  font-size: 15px;
-  line-height: 1;
+#references .sources strong {
+  font-size: 12.5px !important;
 }
 
-.btn-label {
-  letter-spacing: 0.4px;
+#references .sources small {
+  font-size: 10.5px !important;
 }
 
-.slide-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 12px;
-  padding: 0 4px;
-  white-space: nowrap;
+#references .source-download {
+  margin-top: 12px !important;
+  font-size: 12px !important;
 }
 
-.slide-number {
-  color: var(--mint);
-  font-weight: 700;
-  letter-spacing: 0.8px;
+/* --------------------------------------------------------------------------
+   SLIDE 9: DECISION & CLOSING
+   -------------------------------------------------------------------------- */
+#decision .section-head {
+  margin-bottom: 8px !important;
 }
 
-.slide-divider {
-  color: #557262;
+#decision .decision-options {
+  gap: 8px !important;
+  margin-bottom: 8px !important;
 }
 
-.slide-name {
-  color: #b2c6bc;
-  font-weight: 500;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+#decision .decision-options button {
+  padding: 8px 10px !important;
+  font-size: 11px !important;
 }
 
-.slide-dots {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 4px;
+#decision .decision-result {
+  padding: 10px 16px !important;
+  gap: 16px !important;
 }
 
-.slide-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: rgba(173, 243, 204, 0.22);
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.28s var(--ease);
+#decision .decision-result h3 {
+  font-size: 24px !important;
+  min-width: 100px !important;
 }
 
-.slide-dot:hover {
-  background: rgba(173, 243, 204, 0.6);
-  transform: scale(1.3);
+#decision .decision-result p {
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
 }
 
-.slide-dot.active {
-  width: 20px;
-  border-radius: 10px;
-  background: var(--mint);
-  box-shadow: 0 0 10px rgba(173, 243, 204, 0.45);
+#decision .hybrid-board {
+  padding: 10px 16px !important;
+  margin-bottom: 8px !important;
+  gap: 16px !important;
 }
 
-.slide-btn-icon {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #182620;
-  border: 1px solid rgba(173, 243, 204, 0.22);
-  color: #b0c4ba;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.25s var(--ease);
+#decision .hybrid-board h3 {
+  font-size: 17px !important;
 }
 
-.slide-btn-icon:hover {
-  background: rgba(173, 243, 204, 0.2);
-  color: var(--mint);
-  transform: scale(1.06);
+#decision .hybrid-board p {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  margin-top: 4px !important;
 }
 
-/* Edge Floating Arrow Buttons */
-.slide-edge-arrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 64px;
-  border-radius: 10px;
-  background: rgba(14, 21, 22, 0.65);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(202, 240, 222, 0.14);
-  color: #92ab9e;
-  font-size: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 30;
-  cursor: pointer;
-  transition: all 0.28s var(--ease);
-  opacity: 0.35;
+#decision .hybrid-board .api-illustration {
+  max-height: 65px !important;
 }
 
-.slide-edge-arrow:hover:not(:disabled) {
-  opacity: 1;
-  background: rgba(24, 38, 32, 0.92);
-  color: var(--mint);
-  border-color: rgba(173, 243, 204, 0.35);
-  transform: translateY(-50%) scale(1.08);
+#decision .closing {
+  padding: 8px 0 4px !important;
 }
 
-.slide-edge-prev {
-  left: 12px;
+#decision .closing h2 {
+  font-size: 20px !important;
 }
 
-.slide-edge-next {
-  right: 12px;
+#decision .closing p {
+  margin: 3px 0 !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
 }
 
-.slide-edge-arrow:disabled {
-  opacity: 0.08;
-  cursor: not-allowed;
-  pointer-events: none;
+#decision .closing .button {
+  padding: 4px 6px 4px 14px !important;
+  font-size: 11.5px !important;
+  margin-top: 4px !important;
 }
 
-@media (max-width: 767px) {
-  .slide-controls {
-    bottom: 8px;
-    padding: 5px 8px;
-    gap: 6px;
-  }
-  .slide-name,
-  .slide-divider,
-  .slide-dots {
-    display: none;
-  }
-  .slide-edge-arrow {
-    display: none;
-  }
+#decision footer {
+  padding: 8px 0 4px !important;
+  margin-top: 6px !important;
 }
