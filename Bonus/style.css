@@ -1731,58 +1731,67 @@ body.slide-deck-mode .hero.slide {
 
 body.slide-deck-mode .hero.slide .slide-stage {
   height: 100%;
-  justify-content: center;
+  max-height: 100%;
+  display: grid !important;
+  grid-template-columns: 1.15fr 1fr !important;
+  align-items: center !important;
+  gap: min(56px, 4vw) !important;
+  position: relative !important;
+  padding-bottom: 40px !important;
 }
 
-body.slide-deck-mode .hero {
-  min-height: auto;
-  height: auto;
-  grid-template-columns: 1.12fr 1fr;
-  gap: 50px;
+body.slide-deck-mode .hero-copy {
+  max-width: 680px;
+}
+
+body.slide-deck-mode .hero-copy .eyebrow {
+  margin-bottom: 16px !important;
 }
 
 body.slide-deck-mode .hero-copy h1 {
-  font-size: clamp(38px, 4.2vw, 60px);
-  line-height: 1.16;
-  letter-spacing: -0.02em;
+  font-size: clamp(32px, 3.2vw, 54px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 !important;
 }
 
 body.slide-deck-mode .hero-copy p {
-  font-size: 15.5px;
-  line-height: 1.7;
-  margin-top: 18px;
-  max-width: 500px;
-  color: #a6bca2;
+  font-size: clamp(14px, 1.05vw, 16px) !important;
+  line-height: 1.65 !important;
+  margin-top: 18px !important;
+  max-width: 520px !important;
+  color: #a6bca2 !important;
 }
 
 body.slide-deck-mode .hero .actions {
-  margin-top: 26px;
-  gap: 20px;
+  margin-top: 24px !important;
+  gap: 18px !important;
 }
 
 body.slide-deck-mode .hero .button {
-  padding: 9px 12px 9px 24px;
-  font-size: 13.5px;
+  padding: 9px 12px 9px 24px !important;
+  font-size: 13.5px !important;
 }
 
 body.slide-deck-mode .hero-meta {
-  margin-top: 30px;
-  gap: 24px;
-  font-size: 11px;
+  margin-top: 26px !important;
+  gap: 22px !important;
+  font-size: 11px !important;
 }
 
 body.slide-deck-mode .network {
-  max-width: 480px;
-  width: 95%;
-  margin: 0 auto;
+  max-width: min(520px, 48vh) !important;
+  width: 100% !important;
+  margin: 0 auto !important;
 }
 
 body.slide-deck-mode .hero-bottom {
-  bottom: 16px;
-  left: 60px;
-  right: 60px;
-  padding-top: 14px;
-  font-size: 10.5px;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding-top: 12px !important;
+  font-size: 10.5px !important;
 }
 
 /* --------------------------------------------------------------------------
